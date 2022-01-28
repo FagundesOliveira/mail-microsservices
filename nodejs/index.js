@@ -10,3 +10,7 @@ app.use(routes);
 app.use(helmet());
 app.use(() => morgan('tiny'));
 app.use(() => cors());
+
+app.listen(process.env.PORT, () => {
+  console.log('Process running on 3000:' + process.env.PORT);
+  });
