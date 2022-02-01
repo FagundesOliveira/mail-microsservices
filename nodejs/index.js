@@ -16,3 +16,4 @@ db.sync();
 app.listen(process.env.PORT, () => {
   console.log('Process running on 3000:' + process.env.PORT);
   });
+  
