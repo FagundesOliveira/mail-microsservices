@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  nodejs:
+    build: 
+      context: ./nodejs
+    container_name: "nodejs"
+    volumes:
+      - ./nodejs:/home/node/app
+      - /home/node/app/node_modules/
+    image: mail-microsservices_nodejs
+    ports:
+      - '3000:3000'
+    depends_on:
+          - "db"
+          - "rabbitmq"
+    
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes: 
+      - ../rabbitmq-data:/var/lib/rabbitmq
+    container_name: "rabbitmq"
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    env_file:
+      - ./nodejs/.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../mysql-data:/var/lib/mysql
+    container_name: "db"

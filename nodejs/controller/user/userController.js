@@ -2,6 +2,7 @@ const { Router } = require("express");
 
 const userRouter = Router({ mergeParams: true });
 const userService = require("../../service/userService");
+const amqpController = require('../amqp/amqpController');
 
 userRouter.get("/user/:id", async (req, res) => {
   const userResultFetch = await userService.findUserById(req.params.id);
@@ -19,15 +20,6 @@ userRouter.get("/userByEmail/:email", async (req, res) => {
   } else {
     res.status(500).send({ message: "Unable to find a email" });
   }
-});
-
-userRouter.post("/createUser", (req, res) => {
-  userService
-    .createUser(req.body)
-    .then((result) => {
-      res.status(200).send(result);
-    })
-    .catch((err) => res.status(500).send(err));
 });
 
 module.exports = userRouter;
